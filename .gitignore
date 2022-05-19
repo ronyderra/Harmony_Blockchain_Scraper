@@ -1,0 +1,12 @@
+/.vscode
+/a.html
+/contracts.json
+/contractsData.json
+/etherConnection
+/firstPage.html
+/index.js
+/node_modules
+/package-lock.json
+/package.json
+/rpc.json
+/schema.js
