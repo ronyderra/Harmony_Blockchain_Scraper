@@ -5,8 +5,9 @@ const htmlparser2 = require("htmlparser2");
 const pretty = require("pretty");
 fs = require("fs");
 
-fs.readFile("./firstPage.html", function (err, html) {
+fs.readFile("./firstPage.html", async function (err, html) {
   getData(html);
+  // console.log(so);
 
   if (err) {
     throw err;
@@ -26,16 +27,40 @@ const getData = async (html) => {
   const listItems = $("tr");
   console.log(listItems.length);
 
-  const arr =[]
+  const arr = [];
 
   listItems.each(function (idx, el) {
-    const name = $(el).children("th").children("div").children("div").children("div").children("a").children("span").text();
-    let addr = $(el).children("th").children("div").children("div").children("div").children("a").attr("href");
+    const name = $(el)
+      .children("th")
+      .children("div")
+      .children("div")
+      .children("div")
+      .children("a")
+      .children("span")
+      .text();
+    let addr = $(el)
+      .children("th")
+      .children("div")
+      .children("div")
+      .children("div")
+      .children("a")
+      .attr("href");
 
-   arr.push({"name": name , "address": addr})
+    let holders = $(el)
+      .children("td.StyledTable__StyledTableCell-sc-1m3u5g-0.dvUoyk.StyledDataTable__StyledDataTableCell-xrlyjm-6.cVYzHy")
+      .text()
+      .trim();
 
+    const amountOfHolders = parseFloat(holders.replace(/,/g, ""));
+    const sliced = addr ? addr.slice(9) : "no address";
 
+    arr.push({ name: name, address: sliced, amountOfHolders: amountOfHolders });
   });
-  console.log(arr)
-  // await browser.close();    
+
+  arr.map((item) => {
+     if(item.amountOfHolders > 100){
+       console.log(item)
+     }
+  });
+  // await browser.close();
 };
